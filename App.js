@@ -353,7 +353,7 @@ export default function App() {
 
     return (
       <AppearanceProvider><NavigationContainer theme={scheme === 'dark' ? DarkTheme : DefaultTheme}>
-      <SafeAreaView style={{flex:1, backgroundColor: scheme === 'dark' ? 'rgb(18,18,18)' : 'white'}}>
+      <SafeAreaView style={styles.container}>
       <DraggableView
         isInverseDirection={true}
         bgColor={scheme === 'dark' ? 'rgb(18,18,18)' : 'white'}
@@ -363,18 +363,8 @@ export default function App() {
           <ScrollView>
             <StatusSummary bleState={bleState} />
             <Text></Text>
-            <TextInput
-              
-              style={{
-                color: dark ? 'white' : 'rgb(18,18,18)',
-                paddingLeft: 15,
-                paddingRight: 15,
-                paddingTop: 3,
-                paddingBottom: 2,
-                borderWidth: 1,
-                borderRadius: 30,
-                borderColor: dark ? 'white' : 'rgb(18,18,18)'}}
-              
+            <TextInputBase
+              style={styles.searchBar}
               onChangeText={search => setSearch(search)}
               underlineColorAndroid="black"
               placeholder="Search through the code ..."
@@ -384,42 +374,18 @@ export default function App() {
             />
             <Text></Text>
 
-            <View style={{
-                flexDirection: 'row',
-                paddingTop: 2,
-                paddingBottom: 3,
-              }}>
+            <View style={styles.colorBar}>
               <RNColorPalette
                 colorList={colors}
                 value={pickedColor}
                 onItemSelect={colorPicked}
                 AddPickedColor={colour => addColor([...colors, colour])}
-                style={{
-                  backgroundColor: pickedColor,
-                  paddingLeft: 10,
-                  paddingRight: 5,
-                  paddingTop: 2,
-                  paddingBottom: 2,
-                  borderWidth: 1,
-                  borderRadius: 5,
-                  width: 140,
-                  height: 30,
-                }}>
+                style={styles.colorPicker}>
                 <View>
                   <Text>Color Picker</Text>
                 </View>
               </RNColorPalette>
-              <TouchableOpacity onPress={copyToClipboard(pickedColor)} style={{
-                  backgroundColor: pickedColor,
-                  paddingLeft: 10,
-                  paddingRight: 5,
-                  paddingTop: 2,
-                  paddingBottom: 2,
-                  borderWidth: 1,
-                  borderRadius: 5,
-                  width: 140,
-                  height: 30,
-                }}>
+              <TouchableOpacity onPress={copyToClipboard(pickedColor)} style={styles.copyButton}>
                 <Text>Copy to Clipboard</Text>
               </TouchableOpacity>
             </View>
@@ -445,3 +411,60 @@ export default function App() {
     );
 
 }
+
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1, 
+    backgroundColor: scheme === 'dark' ? 'rgb(18,18,18)' : 'white'
+  },
+  title: {
+    marginTop: 16,
+    paddingVertical: 8,
+    borderWidth: 4,
+    borderColor: "#20232a",
+    borderRadius: 6,
+    backgroundColor: "#61dafb",
+    color: "#20232a",
+    textAlign: "center",
+    fontSize: 30,
+    fontWeight: "bold"
+  },
+  searchBar: {
+    color: dark ? 'white' : 'rgb(18,18,18)',
+    paddingLeft: 15,
+    paddingRight: 15,
+    paddingTop: 3,
+    paddingBottom: 2,
+    borderWidth: 1,
+    borderRadius: 30,
+    borderColor: dark ? 'white' : 'rgb(18,18,18)'
+  },
+  colorBar: {
+    flexDirection: 'row',
+    paddingTop: 2,
+    paddingBottom: 3,
+  },
+  colorPicker: {
+    backgroundColor: pickedColor,
+    paddingLeft: 10,
+    paddingRight: 5,
+    paddingTop: 2,
+    paddingBottom: 2,
+    borderWidth: 1,
+    borderRadius: 5,
+    width: 140,
+    height: 30,
+  },
+  copyButton: {
+    backgroundColor: pickedColor,
+    paddingLeft: 10,
+    paddingRight: 5,
+    paddingTop: 2,
+    paddingBottom: 2,
+    borderWidth: 1,
+    borderRadius: 5,
+    width: 140,
+    height: 30,
+  }
+});
